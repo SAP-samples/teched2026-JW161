@@ -1,14 +1,18 @@
 # Exercise 2 – Author and Generate
 
 Now make the system work. You'll generate a finished, data-bound view from a
-plain-language prompt, watch it choose a different composite when the request
-changes, author a brand-new composite from a description, and then see the
-system select your new composite in a later generation.
+plain-language prompt, decide it could be better, author a brand-new composite
+from a description, and then see the system select your new composite the next
+time the same request comes in.
 
 > **Prerequisite:** [Exercise 1 – Explore the Workbench](../ex1/1_ExploreTheWorkbench.md).
 > **Tool:** <https://compositional-ui-tooling.cfapps.eu10-005.hana.ondemand.com/>
 
----
+Steps:
+
+- [2.1 Generate your first view](#21-generate-your-first-view)
+- [2.2 Author a new composite from a description](#22-author-a-new-composite-from-a-description)
+- [2.3 Close the loop: your new composite is selected](#23-close-the-loop-your-new-composite-is-selected)
 
 ## 2.1 Generate your first view
 
@@ -17,120 +21,200 @@ Click the **SAP logo** (top-left) to go to the **Generate a view** prompt.
 In the prompt box, type:
 
 ```
-Show me a KPI summary for travel bookings
+show me a comprehensive view on travel 00000001
 ```
 
 Click **Generate**. After a few seconds the tool switches to the **Test** workspace and shows the result.
 
-![The generated KPI view, with the "Why this composite?" and "Reasoning flow" panels on the left.](./images/06-generated-kpi-reasoning.png)
+### Read the generated view
 
-Three areas to review, in order:
+Read three areas of the Test workspace, matching the screenshot below.
 
-**(a) The result (centre).** A card titled **"Travel Bookings Summary"** with four KPIs — *Total Bookings, Total Revenue, Total Fees, Average Booking Value* — populated with live SFlight numbers. A described intent has produced a finished, data-bound view.
+- **The result (center).** Inspect the **Travel Request** card. It shows the
+  record's identifier (`Travel ID: 00000001`), a status **Tag** (**Open**),
+  and a flat grid of label/value pairs: Travel ID, Begin Date, Description,
+  End Date, Agency Name, Booking Fee, Agency ID, Total Price, Customer ID,
+  Currency. Your run's values may differ from this example.
+- **Why this composite? (top-left, green panel).** Read the justification.
+  The request names a single specific record (`travel 00000001`), which
+  matches `cards/detail`: a composite whose purpose is to show all
+  attributes of a single record in a stacked label/value layout.
+- **Reasoning flow (left, yellow panel).** Follow the trace from the data
+  fetch to **Done**. It shows what was retrieved, which candidates were
+  considered, and why `cards/detail` was selected.
 
-**(b) "Why this composite?" (top-left, green).** A one-sentence justification: *"User explicitly requested 'KPI summary' which matches the cards/kpi composite designed for displaying 1–5 headline numeric metrics…"* — the plain-language rationale for the choice.
+![Test workspace after generation: Travel Request detail card in the center, Why this composite panel top-left, Reasoning flow below it.](./images/06-generated-kpi-reasoning.png)
 
-**(c) "Reasoning flow" (left, yellow).** A step-by-step trace of how the view was built:
+Check these entries in the trace:
 
-1. **Data fetch** — 5 records, 11 fields, enrichment for "Travel".
-2. **Catalog (cap-search)** — 10 candidate composites considered (cards/kpi, cards/bar-chart, cards/table, …).
-3. **Selected composite** — `cards/kpi`, with the stated reason.
-4. **resolveComponents** — the composite's slots filled.
-5. **Spec resolved** — the JSON-render spec produced.
-6. **Done** — with timing (e.g. ~6 s).
+- **Data fetch**: 5 records and 12 fields, with enrichment for **Travel**. These
+  are the five mock Travel records that ship with the workshop dataset, not a
+  filtered subset for travel `00000001`: the detail card picks the matching
+  record from them.
+- **Catalog (cap-search)**: 9 candidates, including `cards/detail`, `cards/kpi`,
+  `cards/bar-chart`, `cards/list`, and `cards/table` in this captured run.
+- **Selected composite**: `cards/detail`, followed by its selection reason.
+- **resolveComponents** and **spec resolved**: the component resolution and
+  spec-generation stages.
+- **Done**: the recorded duration, about 5 seconds in this example.
 
-This is the transparency mechanism. The output is accompanied by the data that was retrieved, every composite that was considered, the one that was selected, and the reason for the selection. For organisations concerned with provenance — "where did this come from?" — the trace provides the answer.
+This trace is a feature of the tool, aimed above all at the people who design composites. The output
+is accompanied by the data that was retrieved, every composite that was considered, the one that was
+selected, and the reason for the selection. A composite designer uses it to see why the system chose
+(or passed over) their composite and to refine its rules and signals accordingly. It doubles as a
+provenance record: for anyone asking "where did this come from?", the trace provides the answer.
 
-Expand the **Used composite** tree (left, below the reasoning) to see the composition hierarchy: **KPI Card → Card → Metric (×4)**.
+**Optional:** scroll below the trace and expand **Used composite** (left,
+blue panel) to inspect the composition hierarchy. For this run it is
+`Detail Card` → `Card` → `Tag` + `Text` (count: 10), one Text primitive per
+label/value pair.
 
----
+### Step back and judge the result
 
-## 2.2 Same data, different request
+The system picked a reasonable composite for the request. The record is
+identified, the status is called out, and every field is on screen. For a
+"comprehensive view", though, the result is thin:
 
-Keep the generated view on screen. In the **Describe what to show** box at the bottom, replace the text with:
+- The important numbers (**Booking Fee**, **Total Price**) are mixed in with
+  descriptive fields instead of being highlighted at the top.
+- Related records are missing. A travel request has bookings underneath it, and
+  none of them are shown here.
+- Everything shares one layout: a flat two-column grid of labels and values.
+
+That is the hook for the next step. The catalog does not yet contain a
+composite that structures a single business object the way we would like. So
+we will author one.
+
+## 2.2 Author a new composite from a description
+
+So far you have only *generated from* the catalog. This step shows the other half of the tool: the
+catalog is **extensible**. A new composite can be authored from a plain-language description, and
+the system drafts its structure *and* its rules. We will author a composite that fixes the gaps we
+just noticed: headline KPIs at the top, a details section in the middle, and a child-records table
+at the bottom.
+
+### Open and name the composite
+
+The wizard runs in three stages, labeled **1 Location**, **2 Name**, and
+**3 Describe** at the top of the dialog.
+
+- **Start authoring.** Switch to **Edit → Composites** and click
+  **`+ Add Composite`** at the bottom of the Composites list. The wizard
+  opens on stage **1 Location**.
+- **Location.** Enter `cards` in the field (its placeholder reads
+  `e.g. cards`) and click **Next**. Location is just a folder for organizing
+  the catalog; it has no special meaning today and does not affect how the
+  composite is selected or generated.
+
+![New Composite wizard open on stage 1 Location, with an empty Location field and the Next button disabled until a value is entered.](./images/09-new-composite-wizard.png)
+
+- **Name.** On the next screen, enter `Object Card` and click **Next**
+  again.
+
+![New Composite wizard open on stage 2 Name, with an empty Name field and the Next button disabled until a value is entered.](./images/13-new-composite-name.png)
+
+### Describe and generate
+
+The dialog is now on stage **3 Describe**. Paste this brief into the
+**Describe this composite** text area (the field holds grey placeholder
+text until you type):
 
 ```
-Show me a table of all travel bookings with status
+An object card that gives a comprehensive view of a single business object. At the top,
+show 2-3 KPI metrics side by side: the most important numeric values and the overall status.
+Below that, a details section with the key descriptive fields of the object - things like
+reference numbers, names, dates, and a description. At the bottom, a table showing the child
+records from the main 1:n association of the object - for example the line items of an order,
+or the bookings of a travel request.
 ```
 
-Click **Regenerate**.
+Notice the brief says nothing about travel. It describes a *shape*: a KPI
+row, a details section, and a child table for a 1:n association. That lets
+the same composite serve sales orders, projects, purchase orders, and the
+travel request we started with.
 
-![Same SFlight data, a different prompt → the system selects `cards/table` and renders a full table — the reasoning flow explains the switch.](./images/08-generated-table-same-data.png)
+Click **Generate & open** (bottom-right of the dialog). This calls the
+authoring LLM; the help text notes **1–3 minutes**. The button next to it,
+**Skip**, creates an empty stub rather than generating rules and a spec.
 
-What changed:
+![Describe dialog with the pasted brief visible in the text area, Skip and Generate & open buttons at the bottom-right.](./images/10-new-composite-describe.png)
 
-- The **Reasoning flow** now reads **Selected composite: `cards/table`** — *"User explicitly requested 'a table' and table cards are best for lists of homogeneous items where the user needs to scan across attributes…"*
-- The **result** is a full table — *Travel ID, Agency, Customer ID, Start Date, End Date, Total Price, Status* — with live rows: *Hot Socks Travel (Open), Sunny Sunny Sunny (Accepted), Your Choice (Canceled)…*
+### Inspect the authored composite
 
-The underlying data did not change. Only the request changed — and the design knowledge in the catalogue steered the system to a different, equally on-brand composite. This is the separation of **what** (the request plus the data) from **how** (the composite plus its rules).
+The tool switches back to **Edit → Composites** with your new composite
+selected. Read three areas, matching the screenshot below.
 
-> **Optional:** click **Spec (raw)** (top-right of the generated view) to confirm it is the same JSON-render format seen earlier on the composite in Exercise 1 — here authored by the system rather than by hand.
+- **Composites list (left).** Your new entry appears as **Object Card**
+  (`cards/object-card`) with a short description derived from the brief,
+  highlighted as the current selection.
+- **Rules Definition (center).** Confirm the **Private (only you)** badge
+  next to the composite name. This is your own workspace layer, separate
+  from the **SAP standard** composites in Exercise 1. Then read **Purpose**,
+  **When**, **Never**, and **Must**. In this example the rules are precise
+  and operational:
+    - **Purpose** names the three sections (KPIs, details, child table) and
+      binds the composite to records with a primary 1:n association.
+    - **When** lists concrete example objects, "sales order, travel request,
+      purchase order, project", and the two signals that must both apply:
+      headline KPIs *and* a related child collection.
+    - **Never** sends flat peer collections to `cards/table` or `cards/list`,
+      single records without a child association to `cards/detail` or
+      `cards/kpi`, and purely numeric dashboards elsewhere.
+    - **Must** fixes the spec contract: a single-row `Data` array,
+      scalar fields bound to `/data/0/fieldName`, and the child table bound
+      to `/data/0/{navProperty}`.
+- **Preview (right).** The right pane renders the composite against a single
+  sample travel record (the header reads **using 1 record**), so you see its
+  *shape* made concrete: a KPI row (**1,284.5 USD Total Price**, **45 USD
+  Booking Fee**, **Accepted Status**), an **Accepted** tag, a details grid
+  of descriptive fields (Travel ID, Departure Date, Agency, Return Date,
+  Agency ID, Purpose, Customer ID), and a **Bookings** child table
+  (Booking ID, Booking Date, Connection). This is a standalone preview of
+  the authored composite; in the next step you run the full generation flow
+  and watch the system *select* this composite for your prompt.
 
-![The generated view's raw spec — identical format to the hand-built composite spec.](./images/07-generated-spec-raw.png)
+![Edit workspace after authoring: Object Card selected in the Composites list, Private (only you) badge visible in the center with Purpose/When/Never/Must rules, and a Travel Request preview on the right showing a KPI row, an Accepted tag, a details grid, and a Bookings child table.](./images/11-composite-generated.png)
 
----
+## 2.3 Close the loop: your new composite is selected
 
-## 2.3 Author a new composite from a description
-
-So far the catalogue has been fixed. This step shows that the catalogue itself is **extensible** — a new composite can be authored from a plain-language description, and the system drafts its structure *and* its rules.
-
-Switch to the **Edit** workspace. At the bottom of the **Composites** list, click **`+ Add Composite`**. A three-step wizard opens: **Location → Name → Describe**.
-
-1. **Location** — where the composite lives. Enter `cards` and click **Next**.
-2. **Name** — the display name. Enter `Travel Status Overview` and click **Next**.
-3. **Describe** — a plain-language brief for the composite.
-
-![The New Composite wizard: Location → Name → Describe.](./images/09-new-composite-wizard.png)
-
-In the **Describe** step, enter:
-
-```
-A card showing travel bookings as a list, each row with the agency name,
-the total price, and a colored status tag (Open, Accepted, Canceled).
-```
-
-![The Describe step, where a plain-language brief drives composite authoring.](./images/10-new-composite-describe.png)
-
-Click **Generate & open**. (This step calls the LLM and may take up to a minute.)
-
-The new composite opens in the editor, fully formed:
-
-- **Purpose** and a **Workspace** badge — distinguishing a user-authored composite from the **SAP standard** layer. A **Delete** control is available because it is user-owned.
-- A complete set of **When / Never / Must** rules, drafted by the system — note that it has reasoned about neighbouring composites (e.g. *Never: "…use cards/table instead… use cards/detail instead"*) and about data binding (e.g. *Must: "Always set agencyField, priceField, and statusField… provide semanticByValue to map each raw status string to a semantic color"*).
-- A **live Preview** rendering real SFlight data as a status list.
-
-![The generated "Travel Status Overview" composite: Purpose, Workspace badge, system-drafted rules, and a live preview.](./images/11-composite-generated.png)
-
-**Why it matters:** authoring a composite is itself a generation task. The output is not loose code — it is a composite in the same spec format as every other, complete with the design knowledge that will govern its future selection. The catalogue grows without a code release.
-
-> **If `Generate & open` is disabled:** the authoring LLM is not configured on the tenant (the Describe step notes it needs a service key). Use **Skip** to create an empty stub, or just read along — the generated composite above is representative.
-
----
-
-## 2.4 Close the loop: your new composite is selected
-
-Return to the **Generate a view** prompt (SAP logo) and enter a request matching the composite you just authored:
+Switch to the **Test** tab in the top switch (next to **Edit**) to return to
+the **Generate a view** prompt, and re-run the same request you started with:
 
 ```
-Show me travel bookings as a list with their status
+show me a comprehensive view on travel 00000001
 ```
 
-Click **Generate** and read the **Reasoning flow**.
+Click **Regenerate** and read the result against the screenshot below.
 
-![The generation selects the user-authored `cards/travel-status-overview` composite, citing its descriptor.](./images/12-generation-uses-new-composite.png)
+- **Why this composite? (top-left, green panel).** The reason now connects
+  the request to `cards/object-card`: a comprehensive single-object view
+  with headline KPIs, descriptive attributes, and a related child
+  collection, "exactly the use case for cards/object-card". The reason
+  comes straight from the rules the authoring step just generated.
+- **Reasoning flow (left, yellow panel).** Locate `cards/object-card` in
+  both **Catalog (cap-search)** and **Selected composite**. The catalog
+  now lists **10 candidates** instead of the 9 you saw in 2.1: your new
+  composite is in the pool and won the match.
+- **Rendered view (center).** The same travel record is now presented in
+  three stacked sections: a KPI row (**900 USD Total Price**, **20 USD
+  Booking Fee**, **Open Travel Status**), a details grid of descriptive
+  fields, and a **Booking ID / Type / Carrier / Booking Date / Price /
+  Currency / Status** table of the child bookings. Compare this with the
+  flat detail card from 2.1: same data in, a very different presentation
+  out, because a better composite was available.
 
-- The **Catalog (cap-search)** candidate list now includes **`cards/travel-status-overview`** — the composite you created.
-- The **Selected composite** is `cards/travel-status-overview`, with the reason citing its purpose: *"…which matches the Travel Status Overview composite's purpose of showing a concise browsable list of travel bookings with identity (agency), a numeric value (price), and a categorical status."*
+![Test workspace after regeneration: Why this composite cites cards/object-card, Reasoning flow lists 10 candidates with cards/object-card selected, and the Travel Request renders with a KPI row on top, a details grid, and a child bookings table.](./images/12-generation-uses-new-composite.png)
 
-This closes the loop: a composite authored by description in step 2.3 is, without any further configuration, a first-class candidate the system can select — demonstrating that **authoring and generation are two ends of the same catalogue**.
-
----
+This closes the selection loop. The composite you authored in 2.2 is now a
+first-class member of the catalog: it has rules the matcher can read, a spec
+the renderer can bind, and it won the next request without any further input
+from you. **Authoring and generation use the same catalog.**
 
 ## Summary
 
 - A plain-language prompt yields a finished, **data-bound** view, with a full **Reasoning flow** explaining the choice.
-- The **same data** renders differently when the **request** changes — *what* vs. *how*.
-- A **new composite** can be authored from a description, rules and all.
-- That new composite is immediately **selectable** by the generation flow.
+- When the catalog's best match is still thin, you can **author a new composite from a description**, rules and all.
+- The authored composite is generic by design: the same **Object Card** serves travel requests, sales orders, and any other single business object with a 1:n child collection.
+- That new composite is immediately **selectable** by the generation flow, as the re-run of the opening prompt demonstrates.
 
 Continue to **[Exercise 3 – Explore on Your Own](../ex3/3_ExploreOnYourOwn.md)** for open-ended prompts and challenges.

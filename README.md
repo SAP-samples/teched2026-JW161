@@ -39,9 +39,8 @@ are in **[Getting Started](exercises/overall_content/GettingStarted.md)**.
 
 - [Exercise 2 – Author and Generate](exercises/ex2/)
     - [2.1 Generate your first view](exercises/ex2/2_AuthorAndGenerate.md#21-generate-your-first-view)
-    - [2.2 Same data, different request](exercises/ex2/2_AuthorAndGenerate.md#22-same-data-different-request)
-    - [2.3 Author a new composite from a description](exercises/ex2/2_AuthorAndGenerate.md#23-author-a-new-composite-from-a-description)
-    - [2.4 Close the loop: your new composite is selected](exercises/ex2/2_AuthorAndGenerate.md#24-close-the-loop-your-new-composite-is-selected)
+    - [2.2 Author a new composite from a description](exercises/ex2/2_AuthorAndGenerate.md#22-author-a-new-composite-from-a-description)
+    - [2.3 Close the loop: your new composite is selected](exercises/ex2/2_AuthorAndGenerate.md#23-close-the-loop-your-new-composite-is-selected)
 
 - [Exercise 3 – Explore on Your Own](exercises/ex3/)
     - [3.1 Phrasing and composite selection](exercises/ex3/3_ExploreOnYourOwn.md#31-phrasing-and-composite-selection--change-the-request-observe-the-result)

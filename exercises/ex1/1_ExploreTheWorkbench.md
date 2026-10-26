@@ -8,14 +8,6 @@ system rests on: **primitives**, **design knowledge (rules)**, and
 > **Dataset:** the standard SAP **SFlight** travel scenario (travels, bookings, agencies, prices, status).
 > **Format:** work through each step at the screen as you read.
 
-> **A note on names.** The screens say *CompUI Tooling*, *Generate a view*,
-> *Reasoning flow*, *Used composite*. In the broader Compositional Design System
-> (CompDS) these map to the *playground / generation service*, the
-> *JSON-render spec*, and *design knowledge* (the project's preferred name for
-> what the UI calls **rules**). This guide uses the **on-screen labels**
-> throughout so what you read matches what you click; the conceptual names
-> appear only where they aid understanding.
-
 ## The core principle
 
 > **The user describes *what* they want to see; the system determines *how* to

@@ -58,7 +58,7 @@ Repeat the authoring flow from Exercise 2 with your own idea. The aim is to expe
    - *"A card ranking travel agencies by total booking value, highest first, each row showing the agency name and its total."*
    - *"A compact card highlighting the single most expensive travel booking, with its agency, price, and status."*
 5. Click **Generate & open** and review what the system produced:
-   - the **Purpose** and the **Workspace** badge (user-authored layer);
+   - the **Purpose** and the **Private (only you)** badge (user-authored layer);
    - the **When / Never / Must** rules it drafted — in particular, how the **Never** rule positions the new composite against existing ones (e.g. "use cards/table instead");
    - the live **Preview** against SFlight data;
    - the **Spec** view, to see which primitives it composed.
@@ -68,19 +68,19 @@ Repeat the authoring flow from Exercise 2 with your own idea. The aim is to expe
 
 **Challenge:** write two briefs for the *same* data that differ only in emphasis (e.g. "rank by value" vs. "show status at a glance") and compare the rules the system drafts for each. What did it infer about *when* each should be used?
 
-> If **Generate & open** is unavailable, the authoring LLM is not configured on the tenant (the Describe step notes it requires a service key). Use **Skip** to create an empty stub, or treat this exercise as a walkthrough of an already-generated composite such as **Travel Status Overview** from Exercise 2.
+> If **Generate & open** is unavailable, the authoring LLM is not configured on the tenant (the Describe step notes it requires a service key). Use **Skip** to create an empty stub, or treat this exercise as a walkthrough of an already-generated composite such as **Object Card** from Exercise 2.
 
 ---
 
 ## 3.5 Change a rule and observe the effect on generation
 
-This exercise shows that **design knowledge is live**: editing a rule changes how the system reasons about a composite in future generations. Use a **Workspace** (user-authored) composite — e.g. **Travel Status Overview** from Exercise 2 — so the SAP-standard composites are left untouched.
+This exercise shows that **design knowledge is live**: editing a rule changes how the system reasons about a composite in future generations. Use a **Private (only you)** composite — e.g. **Object Card** from Exercise 2 — so the SAP-standard composites are left untouched.
 
-1. Run a generation that selects the composite, and note the result and the **Reasoning flow**. For Travel Status Overview: `Show me travel bookings as a list with their status`.
-2. Go to **Edit → Composites**, open that composite, and edit a rule in the **Rules Definition** tab — for example, strengthen the **Never** rule (*"Never use this composite for travel bookings; always prefer cards/table"*) or sharpen the **When** rule toward a narrower case.
+1. Run a generation that selects the composite, and note the result and the **Reasoning flow**. For Object Card: `show me a comprehensive view on travel 00000001`.
+2. Go to **Edit → Composites**, open that composite, and edit a rule in the **Rules Definition** tab — for example, strengthen the **Never** rule (*"Never use this composite if the object has no related child collection; prefer cards/detail"*) or sharpen the **When** rule toward a narrower case.
 3. Click **Save**.
 
-![Editing a rule on a Workspace composite; Save / Reset appear once the rule is changed.](./images/13-edit-rule-save.png)
+![An earlier example of editing a private composite; Save / Reset appear once the rule is changed.](./images/13-edit-rule-save.png)
 
 4. Return to **Generate a view**, run the same prompt again, and read the **Reasoning flow**. Compare against step 1: did the candidate ordering change, did the one-sentence reason change, or did the selected composite change?
 
