@@ -3,9 +3,9 @@
 ## Description
 
 This repository contains the hands-on material for the session **JW161 – SAP's
-Compositional Design System: Author and Render Your Own UIs**. Over about an
-hour you explore the **CompUI Tooling (Tech Preview)**: inspect the primitives
-and composites in the catalogue, generate finished data-bound views from
+Compositional Design System: Author and Render Your Own UIs**. During the
+session, you explore the **CompUI Tooling (Tech Preview)**: inspect the
+primitives and composites in the catalogue, generate finished data-bound views from
 plain-language prompts, author a brand-new composite from a description, and
 watch the system's reasoning as it chooses *how* to render *what* you asked for.
 
@@ -42,13 +42,16 @@ are in **[Getting Started](exercises/overall_content/GettingStarted.md)**.
     - [2.2 Author a new composite from a description](exercises/ex2/2_AuthorAndGenerate.md#22-author-a-new-composite-from-a-description)
     - [2.3 Close the loop: your new composite is selected](exercises/ex2/2_AuthorAndGenerate.md#23-close-the-loop-your-new-composite-is-selected)
 
-- [Exercise 3 – Explore on Your Own](exercises/ex3/)
-    - [3.1 Phrasing and composite selection](exercises/ex3/3_ExploreOnYourOwn.md#31-phrasing-and-composite-selection--change-the-request-observe-the-result)
-    - [3.2 Interpreting the reasoning](exercises/ex3/3_ExploreOnYourOwn.md#32-interpreting-the-reasoning)
-    - [3.3 Tracing behaviour back to a rule](exercises/ex3/3_ExploreOnYourOwn.md#33-tracing-behaviour-back-to-a-rule)
-    - [3.4 Author a composite from a description](exercises/ex3/3_ExploreOnYourOwn.md#34-author-a-composite-from-a-description)
-    - [3.5 Change a rule and observe the effect on generation](exercises/ex3/3_ExploreOnYourOwn.md#35-change-a-rule-and-observe-the-effect-on-generation)
-    - [3.6 Free-form scenarios (SFlight)](exercises/ex3/3_ExploreOnYourOwn.md#36-free-form-scenarios-sflight)
+- [Exercise 3 – Explore, Test, and Improve](exercises/ex3/)
+    - [3.1 Prompt comparison lab](exercises/ex3/3_ExploreOnYourOwn.md#31-prompt-comparison-lab)
+    - [3.2 Inspect the reasoning](exercises/ex3/3_ExploreOnYourOwn.md#32-inspect-the-reasoning)
+    - [3.3 Trace a result through its rule and spec](exercises/ex3/3_ExploreOnYourOwn.md#33-trace-a-result-through-its-rule-and-spec)
+    - [3.4 Composite design challenge](exercises/ex3/3_ExploreOnYourOwn.md#34-composite-design-challenge)
+    - [3.5 Run an A/B rule experiment](exercises/ex3/3_ExploreOnYourOwn.md#35-run-an-ab-rule-experiment)
+    - [3.6 Diagnose an unsatisfactory result](exercises/ex3/3_ExploreOnYourOwn.md#36-diagnose-an-unsatisfactory-result)
+    - [3.7 Review and refine a composite](exercises/ex3/3_ExploreOnYourOwn.md#37-review-and-refine-a-composite)
+    - [3.8 Free-form scenarios](exercises/ex3/3_ExploreOnYourOwn.md#38-free-form-scenarios-optional)
+    - [3.9 Final end-to-end challenge](exercises/ex3/3_ExploreOnYourOwn.md#39-final-end-to-end-challenge)
 
 And finally:
 [Further Resources and Thank You](exercises/overall_content/ConclusionAndResources.md)

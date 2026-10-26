@@ -217,4 +217,4 @@ from you. **Authoring and generation use the same catalog.**
 - The authored composite is generic by design: the same **Object Card** serves travel requests, sales orders, and any other single business object with a 1:n child collection.
 - That new composite is immediately **selectable** by the generation flow, as the re-run of the opening prompt demonstrates.
 
-Continue to **[Exercise 3 – Explore on Your Own](../ex3/3_ExploreOnYourOwn.md)** for open-ended prompts and challenges.
+Continue to **[Exercise 3 – Explore, Test, and Improve](../ex3/3_ExploreOnYourOwn.md)** for the extension lab.

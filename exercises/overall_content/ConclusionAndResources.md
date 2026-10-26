@@ -11,7 +11,7 @@
 ## Where to go next
 
 - The **CompUI Tooling** itself — keep exploring: <https://compositional-ui-tooling.cfapps.eu10-005.hana.ondemand.com/>
-- Revisit any exercise: [Explore the Workbench](../ex1/1_ExploreTheWorkbench.md) · [Author and Generate](../ex2/2_AuthorAndGenerate.md) · [Explore on Your Own](../ex3/3_ExploreOnYourOwn.md)
+- Revisit any exercise: [Explore the Workbench](../ex1/1_ExploreTheWorkbench.md) · [Author and Generate](../ex2/2_AuthorAndGenerate.md) · [Explore, Test, and Improve](../ex3/3_ExploreOnYourOwn.md)
 
 ## Thank you
 

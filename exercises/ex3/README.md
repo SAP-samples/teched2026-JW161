@@ -1,15 +1,19 @@
-# Exercise 3 – Explore on Your Own
+# Exercise 3 – Explore, Test, and Improve
 
-Open-ended prompts and challenges to build intuition for how a request and the
-rules interact.
+A structured extension lab for testing prompts, tracing rules and specs,
+authoring composites, diagnosing failures, and reviewing results.
 
 Start here: **[3_ExploreOnYourOwn.md](3_ExploreOnYourOwn.md)**
 
-Exercises:
+For a shorter route, complete 3.1–3.3. Complete all sections for the full
+extension lab.
 
-- [3.1 Phrasing and composite selection](3_ExploreOnYourOwn.md#31-phrasing-and-composite-selection--change-the-request-observe-the-result)
-- [3.2 Interpreting the reasoning](3_ExploreOnYourOwn.md#32-interpreting-the-reasoning)
-- [3.3 Tracing behaviour back to a rule](3_ExploreOnYourOwn.md#33-tracing-behaviour-back-to-a-rule)
-- [3.4 Author a composite from a description](3_ExploreOnYourOwn.md#34-author-a-composite-from-a-description)
-- [3.5 Change a rule and observe the effect on generation](3_ExploreOnYourOwn.md#35-change-a-rule-and-observe-the-effect-on-generation)
-- [3.6 Free-form scenarios (SFlight)](3_ExploreOnYourOwn.md#36-free-form-scenarios-sflight)
+- [3.1 Prompt comparison lab](3_ExploreOnYourOwn.md#31-prompt-comparison-lab)
+- [3.2 Inspect the reasoning](3_ExploreOnYourOwn.md#32-inspect-the-reasoning)
+- [3.3 Trace a result through its rule and spec](3_ExploreOnYourOwn.md#33-trace-a-result-through-its-rule-and-spec)
+- [3.4 Composite design challenge](3_ExploreOnYourOwn.md#34-composite-design-challenge)
+- [3.5 Run an A/B rule experiment](3_ExploreOnYourOwn.md#35-run-an-ab-rule-experiment)
+- [3.6 Diagnose an unsatisfactory result](3_ExploreOnYourOwn.md#36-diagnose-an-unsatisfactory-result)
+- [3.7 Review and refine a composite](3_ExploreOnYourOwn.md#37-review-and-refine-a-composite)
+- [3.8 Free-form scenarios](3_ExploreOnYourOwn.md#38-free-form-scenarios-optional)
+- [3.9 Final end-to-end challenge](3_ExploreOnYourOwn.md#39-final-end-to-end-challenge)

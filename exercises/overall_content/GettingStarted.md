@@ -25,9 +25,8 @@ to this live data.
 
 ## Tips
 
-- **Timings** are a guide for a 60-minute slot: Exercise 1 ≈ 20 min, Exercise 2 ≈ 25 min, Exercise 3 ≈ 15 min. If you are short on time, the core narrative is Exercise 1 steps 1.2 and 1.4, and Exercise 2 steps 2.1 and 2.2; treat composite authoring (2.3 / 2.4) as the extension story.
 - **If a generation renders empty or unexpected**, use **Regenerate** — the generation step is non-deterministic and a re-run typically resolves it. Confirm `CAP · online` is green first.
-- **Composite authoring (2.3 and 3.4) calls the LLM** and can take up to a minute; it also depends on the authoring service being configured on the tenant. If **Generate & open** is disabled, use **Skip** or fall back to a pre-existing composite.
+- **Composite authoring (2.2 and 3.4) calls the LLM** and depends on the authoring service being configured on the tenant. If **Generate & open** is disabled, use **Skip** or fall back to a pre-existing composite.
 - **For the rule-editing exercise (3.5), use a Private (only you) composite**, never an SAP-standard one, and **Reset** the rule afterwards. The effect on a generation is a tendency, not a guarantee — the lesson is in the **Reasoning flow**, not in forcing a particular selection.
 - **Return to the Reasoning flow often.** It is the most instructive surface in the tool; pair each result with its trace.
 
